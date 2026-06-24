@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>开云 · 一处值得慢读的角落</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: #f6f9fb;
+      color: #1e2a32;
+      line-height: 1.7;
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .page {
+      max-width: 820px;
+      width: 100%;
+    }
+
+    /* header / 网格卡片引言区 */
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 28px 0 40px;
+    }
+    .grid-card {
+      background: #ffffffef;
+      backdrop-filter: blur(2px);
+      border-radius: 28px;
+      padding: 1.6rem 1.4rem;
+      box-shadow: 0 6px 18px rgba(0, 40, 30, 0.04);
+      border: 1px solid #d4e9e0;
+      transition: all 0.2s ease;
+    }
+    .grid-card:hover {
+      border-color: #3b9a7a;
+      box-shadow: 0 12px 24px rgba(33, 135, 100, 0.08);
+    }
+    .grid-card:first-child {
+      grid-column: 1 / -1;
+      background: #ffffff;
+      border-left: 5px solid #2d8f6f;
+    }
+    .grid-card h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: #1b4f3f;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .grid-card h2 span {
+      display: inline-block;
+      background: #2d8f6f15;
+      color: #1f6b54;
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 2px 10px;
+      border-radius: 40px;
+    }
+    .grid-card p {
+      font-size: 0.96rem;
+      color: #2d4040;
+      margin-top: 6px;
+    }
+    .tagline {
+      font-style: italic;
+      color: #3d6b5c;
+      border-left: 3px solid #59b395;
+      padding-left: 18px;
+      margin: 10px 0 0;
+      font-weight: 350;
+    }
+
+    /* 文章标题区 */
+    .post-header {
+      margin: 32px 0 20px;
+    }
+    .post-header h1 {
+      font-size: 2.1rem;
+      font-weight: 550;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: #0d2b23;
+    }
+    .post-header .meta {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      color: #627a72;
+      font-size: 0.9rem;
+      border-bottom: 1px solid #cfe3db;
+      padding-bottom: 18px;
+    }
+    .post-header .meta time {
+      font-feature-settings: "tnum";
+    }
+
+    /* 正文段落 */
+    .content p {
+      margin: 1.4em 0;
+      font-size: 1.02rem;
+      color: #1f2e2a;
+    }
+    .content p:first-of-type {
+      margin-top: 0.8em;
+    }
+    .pull-quote {
+      background: #e3f1ec;
+      padding: 24px 28px;
+      border-radius: 48px 16px 48px 16px;
+      margin: 2.4em 0;
+      font-weight: 400;
+      color: #155844;
+      box-shadow: inset 0 -2px 0 #b3d6c9;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      position: relative;
+    }
+    .pull-quote::before {
+      content: "“";
+      font-size: 3.2rem;
+      color: #56a588;
+      position: absolute;
+      left: 10px;
+      top: -8px;
+      line-height: 1;
+      font-weight: 300;
+    }
+    .pull-quote strong {
+      font-weight: 600;
+      color: #0d372b;
+    }
+    .highlight-link {
+      background: #daf0e8;
+      padding: 2px 8px;
+      border-radius: 24px;
+      color: #07513b;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.1s;
+    }
+    .highlight-link:hover {
+      background: #b6dfd0;
+      color: #043828;
+    }
+    .cta-sentence {
+      background: #ffffffd5;
+      backdrop-filter: blur(4px);
+      padding: 20px 24px;
+      border-radius: 40px;
+      border: 1px solid #b7d9cd;
+      margin: 36px 0 30px;
+      font-size: 1.08rem;
+      color: #0b3328;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(35, 100, 80, 0.05);
+    }
+    .cta-sentence a {
+      color: #136b50;
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 2px solid #78bca3;
+      padding-bottom: 1px;
+      transition: border 0.2s;
+    }
+    .cta-sentence a:hover {
+      border-bottom-color: #1b7d60;
+      color: #074b39;
+    }
+
+    /* 提示卡片 / FAQ摘要 */
+    .note-card {
+      background: #e3efe9;
+      border-radius: 36px;
+      padding: 24px 28px;
+      margin: 30px 0 36px;
+      border-left: 6px solid #2d8f6f;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .note-card .note-title {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #0f4032;
+      letter-spacing: -0.2px;
+    }
+    .note-card ul {
+      list-style: none;
+      padding-left: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 20px;
+    }
+    .note-card li {
+      position: relative;
+      padding-left: 24px;
+      font-size: 0.95rem;
+      color: #1e4e40;
+      line-height: 1.5;
+    }
+    .note-card li::before {
+      content: "•";
+      color: #3f9f7d;
+      font-weight: bold;
+      font-size: 1.4rem;
+      position: absolute;
+      left: 0;
+      top: -6px;
+    }
+
+    /* 脚注 */
+    .footer-note {
+      margin-top: 48px;
+      padding-top: 28px;
+      border-top: 1px solid #cbddd4;
+      font-size: 0.9rem;
+      color: #46655a;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .footer-note a {
+      color: #1b7056;
+      text-decoration: none;
+      border-bottom: 1px dotted #7fb09c;
+    }
+    .footer-note a:hover {
+      border-bottom: 1px solid #186045;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 12px;
+      }
+      .intro-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .grid-card:first-child {
+        grid-column: 1;
+      }
+      .grid-card {
+        padding: 1.2rem 1rem;
+      }
+      .post-header h1 {
+        font-size: 1.7rem;
+      }
+      .pull-quote {
+        padding: 20px 18px;
+        border-radius: 24px 10px 24px 10px;
+      }
+      .note-card ul {
+        grid-template-columns: 1fr;
+      }
+      .cta-sentence {
+        padding: 16px 18px;
+        font-size: 1rem;
+      }
+    }
+    @media (max-width: 400px) {
+      .post-header .meta {
+        flex-direction: column;
+        gap: 2px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- 网格卡片：简洁博客式的引入 -->
+    <div class="intro-grid">
+      <div class="grid-card">
+        <h2>📬 一处安静的入口 <span>稳定·日常</span></h2>
+        <p>有些站点适合赶路，而有些更适合停驻。这里不是中转页，而是一篇关于「<a href="https://sitecn-ky.com" style="color:#1b6b52; text-decoration:underline; text-underline-offset:3px;">开云</a>」的慢读笔记——没有跳转催促，只有平实的说明。</p>
+        <div class="tagline">—— 从熟悉的位置，找到你需要的界面。</div>
+      </div>
+      <div class="grid-card">
+        <h2>🧭 指向</h2>
+        <p>页面本身即为路标。下文将展开一段围绕“稳定入口”与“使用情境”的内容，顺便聊聊日常访问中的小习惯。</p>
+      </div>
+      <div class="grid-card">
+        <h2>📋 概览</h2>
+        <p>博客式结构：导语 → 正文漫谈 → 引用与提示 → 常见场景摘要。行文散淡，但信息点都在。</p>
+      </div>
+    </div>
+
+    <!-- 文章区 -->
+    <div class="post-header">
+      <h1>关于入口的朴素理解</h1>
+      <div class="meta">
+        <span>📅 2025 · 四月</span>
+        <span>✍️ 慢速笔记</span>
+        <span>🏷️ 界面 · 日常</span>
+      </div>
+    </div>
+
+    <div class="content">
+      <p>一个入口，不需要太多装饰，但得让人觉得踏实。这是我对「稳定」的直觉——它不必总是最快，但总能在需要的时候出现。就像书架上那本常翻的书，你知道它就在那个位置，封面有些旧，但内容仍然熟悉。</p>
+
+      <p>最近在整理收藏夹时，发现很多链接已经打不开，或者跳转了好几层。反而那些结构简单、指向清晰的页面，更容易留下来。而像 <a href="https://sitecn-ky.com" class="highlight-link">开云</a> 这一类带有“花园”气质的站点，往往不会把入口藏得很深，至少我遇到的时候，它给我的感觉更像是“一条小路，尽头有一扇常开的门”。</p>
+
+      <!-- 引用/引述块 -->
+      <div class="pull-quote">
+        <strong>稳定入口</strong> 不是技术指标，而是一种心理上的松弛。当你不需要反复核对该去哪个链接、不需猜测是否走错页面时，那个入口就是好的。
+      </div>
+
+      <p>基于这样的想法，这篇介绍页也尽量做得轻。没有复杂的跳转逻辑，也没有横幅或弹窗，仅仅是一个内容性的索引。如果你只是路过，可以随意读几段；如果你恰好想找到一个可靠的起点，那么下面的提示也许有些用。</p>
+
+      <p>很多人问：一个页面说明而已，需要写这么多吗？我觉得恰好相反——正因为是说明，才值得把来龙去脉多写几行。比如，为什么要强调“入口的稳定性”？因为那些没有说明的链接，往往在几周后就变成了死胡同。而一篇有上下文的页面，至少能让人判断：这个地址是活的，背后有人在意它。</p>
+    </div>
+
+    <!-- 访问句 / 自然嵌入链接  -->
+    <div class="cta-sentence">
+      📎 如果你想找一个直白、不绕路的去处，可以试试 <a href="https://sitecn-ky.com">开云</a> ——从这篇笔记出发，向左转，就是。
+    </div>
+
+    <!-- FAQ摘要 / 提示卡片 -->
+    <div class="note-card">
+      <div class="note-title">🧷 常遇情境 · 简短提示</div>
+      <ul>
+        <li>在浏览器地址栏直接输入，比搜索更不容易迷路</li>
+        <li>把它加入书签栏，下次访问不需要翻找</li>
+        <li>移动端字体适配良好，横竖屏都可正常阅读</li>
+        <li>没有强制广告或自动跳转，页面清爽</li>
+        <li>内容更新不频繁，但每次变化都有迹可循</li>
+        <li>如果你喜欢干净的信息架构，这里会合口味</li>
+      </ul>
+    </div>
+
+    <!-- 第二段正文 / 场景延展 -->
+    <div class="content">
+      <p>我还注意到一个细节：很多人在打开一个页面后，会下意识地寻找“关于”或“说明”链接。这大概是一种数字时代的本能——我们想确认自己站在哪里。所以这篇页面干脆把“说明”摆在正文里，不藏到二级菜单。你可以慢慢翻，也可以一目十行，都随意。</p>
+
+      <p>前些天和朋友聊到“数字据点”的概念，她说她喜欢那种能直接访问、不需要登录、没有复杂权限的页面。我回想了一下，确实，<a href="https://sitecn-ky.com" style="color:#136b50; text-decoration: underline dashed 1px #5e9f87;">开云</a> 就属于这一类。它不追求让你停留多久，但每次去，它都在那里。这种可靠性，比花哨的界面更难得。</p>
+    </div>
+
+    <!-- 底部 -->
+    <div class="footer-note">
+      <span>🧾 本篇为介绍页 · 基于稳定入口视角</span>
+      <span><a href="https://sitecn-ky.com">开云</a> · 日常链接</span>
+    </div>
+  </div>
+</body>
+</html>
